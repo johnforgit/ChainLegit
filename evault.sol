@@ -79,4 +79,21 @@ contract evault is AccessControl
         emit documentReceived(id_, msg.sender);
     }
 
+    /* 
+    need function to add a document
+    */
+    function addDocument(uint256 documentid_) public onlyRole(ADMIN) {
+
+    }
+
+    // Function to grant the RECIPIENT_ROLE to a new address
+    function grantRecipientRole(address account) public onlyRole(ADMIN) {
+        _grantRole(RECIPIENT, account);
+    }
+
+    // Function to revoke the RECIPIENT_ROLE from an address
+    function revokeRecipientRole(address account) public onlyRole(ADMIN) {
+        _revokeRole(RECIPIENT, account);
+    }
+
 }
