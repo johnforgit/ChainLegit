@@ -9,7 +9,7 @@ const PinataFileViewer = ({ fileUrl }) => {
   useEffect(() => {
     const fetchFile = async () => {
       try {
-        const response = await axios.get("https://yellow-electric-egret-510.mypinata.cloud/ipfs/QmXJMLTHkedvF6yCSZ4NXPKo2XWh1CgE3CGPLpyHgTVWqV", {
+        const response = await axios.get("https://yellow-electric-egret-510.mypinata.cloud/ipfs/QmXdeWga2HXr7caKSMCdA6XkGtX2vEh6pgH98uZdAqHKVT", {
           responseType: 'arraybuffer',
           headers: {
             'Content-Type': 'application/pdf',
@@ -29,7 +29,7 @@ const PinataFileViewer = ({ fileUrl }) => {
   }, [fileUrl]);
 
   return (
-    <div>
+    <div className='mt-10'>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {fileData && (
@@ -39,7 +39,7 @@ const PinataFileViewer = ({ fileUrl }) => {
             src={fileData}
             type="application/pdf"
             width="100%"
-            height="600"
+            height="900"
           />
         </div>
       )}

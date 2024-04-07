@@ -36,6 +36,8 @@ const PinataUploader = () => {
       });
 
       console.log('Upload successful:', response.data);
+      window.alert("Upload successful")
+
       setUploading(false);
       setFile(null);
       setUploadError('');
@@ -48,18 +50,25 @@ const PinataUploader = () => {
 
   return (
     <div>
-      <h2>Pinata File Uploader</h2>
-      <input type="file" onChange={handleFileChange} />
+      {/* <h2>Pinata File Uploader</h2> */}
+      <label className="form-control w-full max-w-xs">
+  <div className="label">
+    <span className="label-text text-xl  ml-14 font-semibold">Pinata File Uploader</span>
+  </div>
+  <input type="file" onChange={handleFileChange} className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
+ 
+</label>
+      {/* <input type="file" onChange={handleFileChange} /> */}
       <div
         className="drop-zone"
         onDrop={handleFileDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        <p>Drag & drop your file here</p>
+        {/* <p>Drag & drop your file here</p> */}
       </div>
       {uploading && <p>Uploading...</p>}
       {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
-      <button onClick={uploadToPinata} disabled={uploading}>
+      <button className='btn btn-outline btn-primary mt-5 ml-20' onClick={uploadToPinata} disabled={uploading}>
         Upload to Pinata
       </button>
     </div>
