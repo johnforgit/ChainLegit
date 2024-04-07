@@ -1,7 +1,7 @@
 import React from 'react'
 
 import PinataUploader from '../components/Fileupload'
-import PinataFileViewer from '../components/Fileview'
+import PinataFileViewer from '../components/PinataFileViewer'
 const page = () => {
   return (
     <div>
@@ -10,7 +10,7 @@ const page = () => {
         </button> */}
         
        <PinataUploader />
-        <PinataFileViewer />
+        {/* <PinataFileViewer /> */}
         
     </div>
   )

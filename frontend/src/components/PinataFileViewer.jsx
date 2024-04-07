@@ -29,7 +29,7 @@ const PinataFileViewer = ({ fileUrl }) => {
   }, [fileUrl]);
 
   return (
-    <div>
+    <div className='mt-10'>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {fileData && (
@@ -39,7 +39,7 @@ const PinataFileViewer = ({ fileUrl }) => {
             src={fileData}
             type="application/pdf"
             width="100%"
-            height="600"
+            height="900"
           />
         </div>
       )}
