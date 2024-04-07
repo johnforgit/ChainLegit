@@ -4,13 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ExampleProvider } from "./context";
-
+import { MetaMaskProvider } from "@metamask/sdk-react";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <MetaMaskProvider
+            debug={false}
+            sdkOptions={{
+                dappMetadata: {
+                    name: "Example React Dapp",
+                    url: window.location.href,
+                },
+                infuraAPIKey: process.env.INFURA,
+                // Other options
+            }}>
+        
     <ExampleProvider>
     <App />
     </ExampleProvider>
+    </MetaMaskProvider>
   </React.StrictMode>
 );
 

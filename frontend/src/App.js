@@ -1,3 +1,5 @@
+import { useSDK } from "@metamask/sdk-react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import LoginPage from "./Login/page.jsx" // Import your Login component from its folder
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react"
@@ -30,6 +32,18 @@ const wagmiConfig = defaultWagmiConfig({
 createWeb3Modal({ wagmiConfig, projectId, chains })
 
 function App() {
+  const [account, setAccount] = useState('');
+  const { sdk, connected, connecting, provider, chainId } = useSDK();
+
+  const connect = async () => {
+      try {
+          const accounts = await sdk?.connect();
+          setAccount(accounts?.[0]);
+      } catch (err) {
+          console.warn("failed to connect..", err);
+      }
+  };
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <Router>

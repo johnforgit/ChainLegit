@@ -1,5 +1,6 @@
-import React from "react";
 
+import { useSDK } from "@metamask/sdk-react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 //context
@@ -17,6 +18,17 @@ function Navbar() {
   //     // console.log(error.message)
   //   }
   // };
+  const [account, setAccount] = useState('');
+  const { sdk, connected, connecting, provider, chainId } = useSDK();
+
+  const connect = async () => {
+      try {
+          const accounts = await sdk?.connect();
+          setAccount(accounts?.[0]);
+      } catch (err) {
+          console.warn("failed to connect..", err);
+      }
+  };
 
   const user = []
 
@@ -30,6 +42,20 @@ function Navbar() {
         <button className=" ">
         <w3m-button />
         </button>
+        <div className="App">
+            <button style={{ padding: 10, margin: 10 }} onClick={connect}>
+                Connect
+            </button>
+            {connected && (
+                <div>
+                    <>
+                        {chainId && `Connected chain: ${chainId}`}
+                        <p></p>
+                        {account && `Connected account: ${account}`}
+                    </>
+                </div>
+            )}
+        </div>
         <Link
           className="hover:text-green-500 hidden sm:block text-lg  font-semibold mr-6 "
           to={"/posts"}
