@@ -1,6 +1,6 @@
 import { AiTwotoneFolderOpen } from "react-icons/ai";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import Title from "./Title";
+
 import {useState} from "react"
 import { Link } from "react-router-dom";
 function Folder({name}) {

@@ -12,6 +12,7 @@ import GrantAccess from "./pages/Client/GrantAccess.jsx"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import ClientFolderPage from "./pages/Client/ClientFolderPage.jsx"
+import FileListPage from "./pages/Client/FileListPage.jsx"
 
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "c0dc5278ab28a9280866ca3a0c51fcac"
@@ -55,6 +56,7 @@ function App() {
           <Route path="/createPost" element={<ClientFileUpload />} />
           <Route path="/viewDocs" element={<FileView />} />
           <Route path="/Client/Folders" element={<ClientFolderPage />} />
+          <Route path="/Client/Files" element={<FileListPage />} />
 
           <Route
             exact
