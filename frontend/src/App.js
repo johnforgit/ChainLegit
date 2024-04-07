@@ -6,9 +6,15 @@ import { WagmiConfig } from "wagmi"
 import { arbitrum, mainnet } from "viem/chains"
 import Home from "./pages/Home.jsx"
 import Navbar from "./components/Navbar.jsx"
+import ClientFileUpload from "./pages/Client/ClientFileUpload.jsx"
+import FileView from "./pages/Client/FileView.jsx"
+import GrantAccess from "./pages/Client/GrantAccess.jsx"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import ClientFolderPage from "./pages/Client/ClientFolderPage.jsx"
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = 'c0dc5278ab28a9280866ca3a0c51fcac'
+const projectId = "c0dc5278ab28a9280866ca3a0c51fcac"
 
 // 2. Create wagmiConfig
 const metadata = {
@@ -27,21 +33,38 @@ const wagmiConfig = defaultWagmiConfig({
 })
 
 // 3. Create modal
-createWeb3Modal({ wagmiConfig, projectId, chains })
+createWeb3Modal({
+  wagmiConfig,
+  projectId,
+  chains,
+  themeVariables: {
+    "--w3m-accent": "#4ed4dc",
+    "--w3m-accent-color": "#4ed4dc",
+    "--wcm-accent-fill-color": "#4ed4dc",
+  },
+})
 
 function App() {
   return (
     <WagmiConfig config={wagmiConfig}>
       <Router>
-        {/* <ToastContainer limit={2} /> */}
+        <ToastContainer limit={2} />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/createPost" element={<ClientFileUpload />} />
+          <Route path="/viewDocs" element={<FileView />} />
+          <Route path="/Client/Folders" element={<ClientFolderPage />} />
 
           <Route
             exact
             path="/Login"
             element={<LoginPage />} // Use your Login component here
+          />
+          <Route
+            exact
+            path="/access"
+            element={<GrantAccess />} // Use your Login component here
           />
         </Routes>
       </Router>
