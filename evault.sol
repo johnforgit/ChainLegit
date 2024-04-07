@@ -1,62 +1,59 @@
 //SPDX-License-Identifier:MIT
 pragma solidity ^0.8.13;
 
-import "@openzeppelin/contracts/access/Ownable.sol"; 
+import "../lib/openzeppelin-contracts/contracts/access/AccessControl.sol"; 
 
-contract evault is Ownable
+contract evault is AccessControl
 {
-    address private admin;
+    // address private admin;
+
+    // setting the admin role
+    bytes32 public constant ADMIN = keccak256("ADMIN");
+    bytes32 public constant POLICE = keccak256("POLICE");
+    bytes32 public constant CLIENT = keccak256("CLIENT");
+    bytes32 public constant JUDGE = keccak256("JUDGE");
 
     constructor() {
-        admin = msg.sender;
+        // setup roles to the people
+        _setupRole(ADMIN, msg.sender);
+        _setupRole(CLIENT, CLIENT);
+        _setupRole(POLICE, POLICE);
+        _setupRole(JUDGE, JUDGE);
+        _setRoleAdmin(ADMIN, ADMIN);
+        _setRoleAdmin(CLIENT, ADMIN);
+        /*
+        
+        _setRoleAdmin(RECIPIENT_ROLE, ISSUER_ROLE);
+        */
     }
 
     modifier onlyAdmin() {
-        require(admin == msg.sender,"You are not the admin");
+        require(hasRole(ADMIN, msg.sender), "only admin can access");
         _;
     }
-
-    struct User
-    {
-        address user;
-        string name;
-
-    }
-    User[] users;
-   //  event userAdded(uint id,string name);
-
+    
     struct Document
     {
-        uint documentID;
-        string name;
-        address[] accessible;
+        string hash;
+        address issuer;
+        address recipient;
+        uint256 timestamp;
     }
-    Document[] documents;
+    mapping(uint => Document) documents;
 
+    event documentIssued(uint256 indexed documentid_, string hash_, address indexed issuer_, address indexed recipient_);
+    event documentReceived(uint256 indexed documentid_, address indexed recipient_);
 
-    function addUser(address id_, string memory name_) public onlyAdmin {
-        users.push(User(id_,name_));
-        // emit userAdded(id_,name_);
-    }
-
-    function getUsers() public onlyAdmin returns(User[] memory) {
-        return users;
-    }
-
-    function addDocument(uint id_, string memory name_, address[] memory address_) public onlyAdmin {
-        documents.push(Document(id_, name_, address_));
+    struct Folder
+    {
+        Document[] documents;
+        address[] allowedAddresses;
     }
 
-    function grantAccess(address id_,uint256 documentid_) public onlyAdmin {
-        uint i;
-        uint pos;
-        for(i = 0;i < documents.length;i++) {
-            if(documentid_ == documents[i].documentID) pos = i;
-        }
-        documents[pos].accessible.push(id_);
-    }
+    
+    address[] userID; // keep track of all the users
 
-    function approveUser(address id_) private onlyAdmin {
+    mapping(address => Folder[]) folders; // map the users to their folders
 
-    }
+
 }
