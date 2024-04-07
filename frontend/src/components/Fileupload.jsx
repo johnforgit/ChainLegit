@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import axios from 'axios';
-
+import { useAccount } from 'wagmi'
+import NFT from '../abi/court.json';
+import { Contract, BrowserProvider } from "ethers";
 const PinataUploader = () => {
+  const { address, isConnecting, isDisconnected } = useAccount()
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [NFTContract, setNFTContract] = useState(null);
+  const [registered , setRegistered] = useState(0);
+  //const NFT_CONTRACT_ADDRESS = "0xb783a9df67548569399a1811120b70149a5bf1be";
+  const NFT_CONTRACT_ADDRESS = "0x01ff8e5afaba8d220fd56e0f541629ba232db61c";
+ 
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const [fileDescription, setFileDescription] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
-
+  const [ipfsUrl , setIpfsUrl] = useState('');
+  
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -15,6 +27,66 @@ const PinataUploader = () => {
     setFile(e.dataTransfer.files[0]);
   };
 
+  const handleFileNameChange = (e) => {
+    setFileName(e.target.value);
+  };
+
+  const handleFileDescriptionChange = (e) => {
+    setFileDescription(e.target.value);
+  };
+  useEffect(() => {
+
+    // Add event listener to handle clicks outside the form
+    function initNFTContract () {
+      console.log("my address:", address)
+      const provider = new BrowserProvider(window.ethereum);
+      provider.getSigner().then((signer) => {
+        const currentAddress = address;
+        
+        console.log("Current Address:", currentAddress);
+        setNFTContract(new Contract(NFT_CONTRACT_ADDRESS, NFT.abi, signer));
+        console.log("NFT contract successfully initialized");
+        console.log(NFTContract);
+        // Check if the address is defined before calling handleMintNFT
+        
+      }).catch((error) => {
+        console.error("Error initializing contract:", error);
+      });
+    console.log('signer')
+    }
+    initNFTContract();
+   
+  }, [address]);
+  const handleMintNFT = async () => {
+    try {
+      // Download the canvas as an image
+    
+      // Check if the request was successful
+     
+       
+        // Optionally, you can show a success message to the user
+        
+       
+          const tx = await NFTContract.addFile(
+            address,
+            '0',
+            fileName,
+            fileDescription,
+            ipfsUrl
+
+          );
+          console.log('done');
+        
+        //alert(`Staked successfully`);
+        //console.log(`NFT created with metadata: ${ticketId}`); 
+
+     
+    } catch (error) {
+      console.error('Error Staking:', error);
+      // Show an error message if something went wrong
+     // alert("An error occurred while Staking your tokens. Please try again later.");
+    }
+  }
   const uploadToPinata = async () => {
     if (!file) {
       setUploadError('Please select a file to upload.');
@@ -36,10 +108,21 @@ const PinataUploader = () => {
       });
 
       console.log('Upload successful:', response.data);
+      if (response.data.IpfsHash) {
+        console.log('File stored at IPFS hash:', response.data.IpfsHash);
+        const imageUrl = response.data.IpfsHash;
+        const imageDownloadUrl = `https://yellow-electric-egret-510.mypinata.cloud/ipfs/${imageUrl}`;
+        console.log(imageDownloadUrl);
+        setIpfsUrl(imageDownloadUrl);
+      } else {
+        console.error('IPFS hash not found in response data.');
+      }
       window.alert("Upload successful")
 
       setUploading(false);
       setFile(null);
+      setFileName('');
+      setFileDescription('');
       setUploadError('');
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -50,27 +133,42 @@ const PinataUploader = () => {
 
   return (
     <div>
-      {/* <h2>Pinata File Uploader</h2> */}
       <label className="form-control w-full max-w-xs">
-  <div className="label">
-    <span className="label-text text-xl  ml-14 font-semibold">Pinata File Uploader</span>
-  </div>
-  <input type="file" onChange={handleFileChange} className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
- 
-</label>
-      {/* <input type="file" onChange={handleFileChange} /> */}
+        <div className="label">
+          <span className="label-text text-xl ml-14 font-semibold">Pinata File Uploader</span>
+        </div>
+        <input type="file" onChange={handleFileChange} className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
+      </label>
       <div
         className="drop-zone"
         onDrop={handleFileDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        {/* <p>Drag & drop your file here</p> */}
       </div>
-      {uploading && <p>Uploading...</p>}
-      {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
       <button className='btn btn-outline btn-primary mt-5 ml-20' onClick={uploadToPinata} disabled={uploading}>
         Upload to Pinata
       </button>
+      <div className="flex flex-col">
+      <input
+        type="text"
+        value={fileName}
+        onChange={handleFileNameChange}
+        placeholder="Enter file name"
+        className="border border-gray-300 px-2 py-1 rounded-md mr-2 mt-3"
+      />
+      <input
+        type="text"
+        value={fileDescription}
+        onChange={handleFileDescriptionChange}
+        placeholder="Enter file description"
+        className="border border-gray-300 px-2 py-1 rounded-md mr-2 mt-3"
+      />
+      <button className="bg-blue-600" onClick={handleMintNFT}>Submit</button>
+      {uploading && <p>Uploading...</p>}
+      {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
+      
+      </div>
+      
     </div>
   );
 };

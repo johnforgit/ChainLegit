@@ -5,7 +5,7 @@ import LoginPage from "./Login/page.jsx" // Import your Login component from its
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react"
 
 import { WagmiConfig } from "wagmi"
-import { arbitrum, mainnet } from "viem/chains"
+import { arbitrum, mainnet , polygonMumbai } from "viem/chains"
 import Home from "./pages/Home.jsx"
 import Navbar from "./components/Navbar.jsx"
 import ClientFileUpload from "./pages/Client/ClientFileUpload.jsx"
@@ -27,7 +27,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 }
 
-const chains = [mainnet, arbitrum]
+const chains = [mainnet, arbitrum, polygonMumbai ]
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
@@ -48,17 +48,7 @@ createWeb3Modal({
 })
 
 function App() {
-  const [account, setAccount] = useState('');
-  const { sdk, connected, connecting, provider, chainId } = useSDK();
-
-  const connect = async () => {
-      try {
-          const accounts = await sdk?.connect();
-          setAccount(accounts?.[0]);
-      } catch (err) {
-          console.warn("failed to connect..", err);
-      }
-  };
+  
 
   return (
     <WagmiConfig config={wagmiConfig}>
