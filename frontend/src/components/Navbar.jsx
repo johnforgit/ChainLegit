@@ -1,4 +1,5 @@
 import React from "react";
+import { TbLockBolt } from "react-icons/tb";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -21,27 +22,30 @@ function Navbar() {
   const user = []
 
   return (
-    <div className="navbar fixed bg-gray-100 z-30">
+    <div className="navbar fixed bg-gray-100 z-30 top-0">
       <div className="flex-1">
-        <span className="btn btn-ghost normal-case text-xl"> Thrive Urban</span>
-      </div>
+   <Link to={"/"}>     <span className="btn btn-ghost normal-case text-xl">  ChainLegit <TbLockBolt className="-ml-1" /> </span>
+     </Link> </div>
       <div className="flex-none">
         .{" "}
         <button className=" ">
-        <w3m-button />
+        
         </button>
         <Link
           className="hover:text-green-500 hidden sm:block text-lg  font-semibold mr-6 "
-          to={"/posts"}
+          to={"/viewDocs"}
         >
-          View Posts
+          View Docs
         </Link>
         <Link
           className="hover:text-green-500 text-lg font-semibold mr-6 "
           to={"/createPost"}
         >
-          Create Post
+          Upload Doc
         </Link>
+
+        <w3m-button className="bg-slate-700 text-red-900" />
+
         {
           //if user is not logged in
           !user && (
