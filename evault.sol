@@ -35,45 +35,76 @@ contract evault is AccessControl
     
     struct Document
     {
-        string hash;
+        string Hash;
         address issuer;
         address recipient;
         uint256 timestamp;
     }
-    mapping(uint => Document) documents;
+    mapping(uint256 => Document) documents;
 
     event documentIssued(uint256 indexed documentid_, string hash_, address indexed issuer_, address indexed recipient_);
     event documentReceived(uint256 indexed documentid_, address indexed recipient_);
 
+/*
     struct Folder
     {
-        Document[] documents;
+        mapping(uint => Document) documents;
         address[] allowedAddresses;
     }
+*/
 
-    
+    // mapping(uint => Document[]) Folder;
+    struct Folder
+    {
+        uint256 folderID;
+        Document[] documents;
+    }
+
     address[] userIDs; // keep track of all the users/recipients
-
-    mapping(address => Folder[]) folders; // map the users to their folders
+    mapping(address => Folder[]) userFolders; // map the users to their folders
 
     // function to add a user
     function addUser(address userid_) public onlyRole(ADMIN) {
         userIDs.push(userid_);
     }
 
+/*
     function issueDocument(string memory hash_, address recipient_) public onlyRole(ADMIN) {
         uint256 documentID = 0;
-        documents[documentID] = Document(hash_, msg.sender, recipient_, block.timestamp); // add the documents to document mappings
+        uint256 folderID = 0;
+        // add the documents to document mappings
+        Document memory newDoc = Document(hash_, 
+                                           msg.sender, 
+                                           recipient_, 
+                                           block.timestamp);
+        documents[documentID] = newDoc;
         _grantRole(RECIPIENT, recipient_);
         emit documentIssued(documentID, hash_, msg.sender, recipient_);
 
-        /* now we need logic to add this document to the folders */
-        Folder.documents.push(Document(hash_, msg.sender, recipient_, block.timestamp));
-        Folder.allowedAddresses.push(recipient_);
-        folders[recipient_] = Folder[documentID];
+        Folder memory newFolder = Folder(folderID, documents.push(newDoc));
+        userFolders[recipient_] = newFolder;
+
+        // adding the recipient to the list of recipients
+        userIDs.push(recipient_);
         
         documentID++;
+        folderID++;
     }
+*/
+    function issueDocument(string memory hash_, address recipient_) public onlyRole(ADMIN) {
+    uint256 documentID = 0; // This should be incremented properly for each document
+    uint256 folderID = 0;   // This should be incremented properly for each folder
+
+    // Add the document to document mappings
+    documents[documentID] = Document(hash_, msg.sender, recipient_, block.timestamp); 
+    _grantRole(RECIPIENT, recipient_);
+    emit documentIssued(documentID, hash_, msg.sender, recipient_);
+
+    // Add the document to the recipient's folder
+    Document memory newDoc = Document(hash_, msg.sender, recipient_, block.timestamp);
+    userFolders[recipient_].push(newDoc); // Push the new document into the existing array of documents
+    }
+
 
     /* 
     while calling this function ensure that the address calling this function should be the recipient of the same document.(msg.sender) 
