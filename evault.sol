@@ -1,7 +1,7 @@
 //SPDX-License-Identifier:MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.24;
 
-import "../lib/openzeppelin-contracts/contracts/access/AccessControl.sol"; 
+import "@openzeppelin/contracts/access/AccessControl.sol"; 
 
 contract evault is AccessControl
 {
@@ -16,7 +16,8 @@ contract evault is AccessControl
 
     constructor() {
         // setup roles to the people
-        _setupRole(ADMIN, msg.sender);
+        _grantRole(ADMIN, msg.sender);
+        // _grantRole(DEFAULT_ADMIN_ROLE, minter);
         /*
         _setupRole(CLIENT, CLIENT);
         _setupRole(POLICE, POLICE);
@@ -51,9 +52,14 @@ contract evault is AccessControl
     }
 
     
-    address[] userID; // keep track of all the users/recipients
+    address[] userIDs; // keep track of all the users/recipients
 
     mapping(address => Folder[]) folders; // map the users to their folders
+
+    // function to add a user
+    function addUser(address userid_) public onlyRole(ADMIN) {
+        userIDs.push(userid_);
+    }
 
     function issueDocument(string memory hash_, address recipient_) public onlyRole(ADMIN) {
         uint256 documentID = 0;
@@ -94,6 +100,11 @@ contract evault is AccessControl
     // Function to revoke the RECIPIENT_ROLE from an address
     function revokeRecipientRole(address account) public onlyRole(ADMIN) {
         _revokeRole(RECIPIENT, account);
+    }
+
+    // function for the recipient to renounce their role
+    function renounceRecipient(address recipientadd_) public onlyRole(RECIPIENT) {
+        renounceRole(RECIPIENT, recipientadd_);
     }
 
 }
