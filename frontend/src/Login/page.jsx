@@ -8,9 +8,7 @@ const page = () => {
         {/* <button className="">
             <WalletConnect />
         </button> */}
-        <button>
-        <w3m-button />
-        </button>
+        
        <PinataUploader />
         <PinataFileViewer />
         

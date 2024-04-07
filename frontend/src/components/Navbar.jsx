@@ -27,6 +27,9 @@ function Navbar() {
       </div>
       <div className="flex-none">
         .{" "}
+        <button className=" ">
+        <w3m-button />
+        </button>
         <Link
           className="hover:text-green-500 hidden sm:block text-lg  font-semibold mr-6 "
           to={"/posts"}
@@ -55,6 +58,7 @@ function Navbar() {
               >
                 Sign UP
               </Link>
+             
             </>
           )
         }
