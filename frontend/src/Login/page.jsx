@@ -1,6 +1,7 @@
 import React from 'react'
-import WalletConnect from '../components/WalletConnect'
 
+import PinataUploader from '../components/Fileupload'
+import PinataFileViewer from '../components/Fileview'
 const page = () => {
   return (
     <div>
@@ -10,7 +11,8 @@ const page = () => {
         <button>
         <w3m-button />
         </button>
-       
+       <PinataUploader />
+        <PinataFileViewer />
         
     </div>
   )
