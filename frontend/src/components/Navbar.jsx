@@ -33,7 +33,7 @@ function Navbar() {
         </button>
         <Link
           className="hover:text-green-500 hidden sm:block text-lg  font-semibold mr-6 "
-          to={"/viewDocs"}
+          to={"/Client/Files"}
         >
           View Docs
         </Link>
