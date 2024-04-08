@@ -1,11 +1,11 @@
-import { useSDK } from "@metamask/sdk-react";
-import React, { useState } from "react";
+import { useSDK } from "@metamask/sdk-react"
+import React, { useState } from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import LoginPage from "./Login/page.jsx" // Import your Login component from its folder
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react"
 
 import { WagmiConfig } from "wagmi"
-import { arbitrum, mainnet , polygonMumbai , sepolia } from "viem/chains"
+import { arbitrum, mainnet, polygonMumbai, sepolia } from "viem/chains"
 import Home from "./pages/Home.jsx"
 import Navbar from "./components/Navbar.jsx"
 import ClientFileUpload from "./pages/Client/ClientFileUpload.jsx"
@@ -27,7 +27,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 }
 
-const chains = [mainnet, arbitrum, polygonMumbai, sepolia ]
+const chains = [mainnet, arbitrum, polygonMumbai, sepolia]
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
@@ -48,8 +48,6 @@ createWeb3Modal({
 })
 
 function App() {
-  
-
   return (
     <WagmiConfig config={wagmiConfig}>
       <Router>
@@ -58,9 +56,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/createPost" element={<ClientFileUpload />} />
-          <Route path="/viewDocs" element={<FileView />} />
+          <Route path="/viewDocs/:imgLink" element={<FileView />} />
           <Route path="/Client/Folders" element={<ClientFolderPage />} />
-          <Route path="/Client/Files" element={<FileListPage />} />
+          <Route path="/Client/Files/:id" element={<FileListPage />} />
 
           <Route
             exact
@@ -70,6 +68,11 @@ function App() {
           <Route
             exact
             path="/access"
+            element={<GrantAccess />} // Use your Login component here
+          />
+          <Route
+            exact
+            path="/access/:id"
             element={<GrantAccess />} // Use your Login component here
           />
         </Routes>

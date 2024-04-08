@@ -67,15 +67,8 @@ const PinataUploader = () => {
         // Optionally, you can show a success message to the user
         
        
-          const tx = await NFTContract.addFile(
-            address,
-            '0',
-            fileName,
-            fileDescription,
-            ipfsUrl
-
-          );
-          console.log('done');
+          const tx = await NFTContract.addFile(address,'3',fileName,fileDescription,ipfsUrl);
+          console.log('done')
         
         //alert(`Staked successfully`);
         //console.log(`NFT created with metadata: ${ticketId}`); 
