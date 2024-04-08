@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PinataFileViewer = ({ fileUrl }) => {
+const PinataFileViewer = ({ fileUrl1 }) => {
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -9,7 +9,7 @@ const PinataFileViewer = ({ fileUrl }) => {
   useEffect(() => {
     const fetchFile = async () => {
       try {
-        const response = await axios.get("https://yellow-electric-egret-510.mypinata.cloud/ipfs/QmXdeWga2HXr7caKSMCdA6XkGtX2vEh6pgH98uZdAqHKVT", {
+        const response = await axios.get(fileUrl1, {
           responseType: 'arraybuffer',
           headers: {
             'Content-Type': 'application/pdf',
@@ -26,7 +26,7 @@ const PinataFileViewer = ({ fileUrl }) => {
     };
 
     fetchFile();
-  }, [fileUrl]);
+  }, [fileUrl1]);
 
   return (
     <div className='mt-10'>

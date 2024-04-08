@@ -5,69 +5,81 @@ import NFT from '../../abi/court.json';
 import Folder from '../../components/Folder'
 import Title from '../../components/Title'
 import File from './File'
+import { useParams } from "react-router-dom"
 
 function FileListPage() {
-  const { address, isConnecting, isDisconnected } = useAccount()
-  const [selectedCard, setSelectedCard] = useState(null);
+  const { id } = useParams()
+
+  const { address } = useAccount();
   const [NFTContract, setNFTContract] = useState(null);
-  const [registered , setRegistered] = useState(0);
-  //const NFT_CONTRACT_ADDRESS = "0xb783a9df67548569399a1811120b70149a5bf1be";
-  const NFT_CONTRACT_ADDRESS = "0x01ff8e5afaba8d220fd56e0f541629ba232db61c";
-  const handleSubmit = async () => {
+  const [data, setData] = useState([]);
+  const [folderName, setFolderName] = useState('');
+    const NFT_CONTRACT_ADDRESS = "0x9060bCbB4804d4E0FD65faC28D832Aa6b88561cB";
+
+  const handleInputChange = (e) => {
+    setFolderName(e.target.value);
+  };
+
+  const handleCreateFolder = async () => {
     try {
-      // Download the canvas as an image
-    
-      // Check if the request was successful
-     
-       
-        // Optionally, you can show a success message to the user
-       
-          const tx = await NFTContract.grantPermission(address);
-          console.log('Granted Access!');
-        
-        //alert(`Staked successfully`);
-        //console.log(`NFT created with metadata: ${ticketId}`); 
-
-     
+      // Create folder logic...
     } catch (error) {
-      console.error('Error Staking:', error);
-      // Show an error message if something went wrong
-     // alert("An error occurred while Staking your tokens. Please try again later.");
+      console.error('Error creating folder:', error);
     }
-  }
-  useEffect(() => {
+  };
 
-    // Add event listener to handle clicks outside the form
-    function initNFTContract () {
-      console.log("my address:", address)
+  const readData = async () => {
+    try {
+      const tx = await NFTContract.getFolderDetails(address,id);
+      const dataArray = Object.values(tx);
+      setData(dataArray);
+    } catch (error) {
+      console.error('Error reading folder:', error);
+    }
+  };
+
+  useEffect(() => {
+    async function initNFTContract() {
       const provider = new BrowserProvider(window.ethereum);
-      provider.getSigner().then((signer) => {
+      try {
+        const signer = await provider.getSigner();
         const currentAddress = address;
-        
-        console.log("Current Address:", currentAddress);
         setNFTContract(new Contract(NFT_CONTRACT_ADDRESS, NFT.abi, signer));
         console.log("NFT contract successfully initialized");
-        console.log(NFTContract);
-        // Check if the address is defined before calling handleMintNFT
-        
-      }).catch((error) => {
+      } catch (error) {
         console.error("Error initializing contract:", error);
-      });
-    console.log('signer')
+      }
     }
     initNFTContract();
-   
   }, [address]);
+
+  useEffect(() => {
+    if (NFTContract) {
+      readData();
+    }
+  }, [NFTContract]);
   
   return (
     <div className='mt-16 w-full'>
-        <Title>eee</Title>
+        {/* <Title>{fname}</Title> */}
   
-    <div className='mt-16 flex   mx-10'>
-   
-<File/>
-<File/>
-<File/>
+    <div className='mt-16    mx-10'>
+
+      <Title>{data[0]}</Title>
+<div className="flex flex-row justify-center  gap-4">
+      {data[1]?.map((innerArray, index) => (
+          
+           
+           <File key={index} item={innerArray}/>
+              
+              
+            
+            
+         
+        ))} </div>
+
+     
+
 
     </div></div>
   )

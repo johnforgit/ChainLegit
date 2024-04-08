@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { Contract, BrowserProvider } from "ethers";
 import { useAccount } from 'wagmi'
 import NFT from '../../abi/court.json';
+import Title from '../../components/Title';
 const GrantAccess = () => {
   const [inputValue, setInputValue] = useState('');
   const [inputId, setInputId] = useState('');
@@ -72,21 +73,34 @@ const GrantAccess = () => {
    
   }, [address]);
   return (
-    <div className="mt-20 text-black flex-col">
-      <h1>Grant Access</h1>
+
+
+<div className="mt-10 min-h-screen  space-y-10 flex-col flex justify-center items-center">
+
+<Title >Grant Access </Title>
+
+
+
+    <div className='border-2 border-primary p-20 rounded-2xl'>
+     
       <input
+        className="input input-bordered input-primary w-full max-w-md ml-2 my-4"     
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Enter a the address"
       />
        <input
+               className="input input-bordered input-primary w-full max-w-md ml-2 my-4"     
+
         type="text"
         value={inputId}
         onChange={(e) => setInputId(e.target.value)}
         placeholder="Enter a the id "
       />
-      <button onClick={handleSubmit}>Submit</button>
+      <button className="btn btn-primary  max-w-md w-[px]" onClick={handleSubmit}>Submit</button>
+    </div>
+    '
     </div>
   );
 };

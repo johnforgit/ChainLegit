@@ -44,25 +44,12 @@ function Navbar() {
         <button className=" ">
         
         </button>
-        <div className="App">
-            <button style={{ padding: 10, margin: 10 }} onClick={connect}>
-                Connect
-            </button>
-            {connected && (
-                <div>
-                    <>
-                        {chainId && `Connected chain: ${chainId}`}
-                        <p></p>
-                        {account && `Connected account: ${account}`}
-                    </>
-                </div>
-            )}
-        </div>
+       
         <Link
           className="hover:text-green-500 hidden sm:block text-lg  font-semibold mr-6 "
-          to={"/Client/Files"}
+          to={"/Client/Folders"}
         >
-          View Docs
+          View Cases
         </Link>
         <Link
           className="hover:text-green-500 text-lg font-semibold mr-6 "
