@@ -65,7 +65,7 @@ function ClientFolderPage() {
 
      
     } catch (error) {
-      console.error('Error creating folder:', error);
+      console.error('Error reading folder:', error);
       // Show an error message if something went wrong
      // alert("An error occurred while Staking your tokens. Please try again later.");
     }
