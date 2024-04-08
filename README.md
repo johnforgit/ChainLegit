@@ -10,4 +10,5 @@ decentralized platform for the exchange of legal documents
 6. Build the smart contract using ```forge build```
 7. Write the test contract and test it using ```forge test```
 ## thirdweb
-Deployed to thirdweb using the command : ```npx thirdweb deploy```
+Deployed to thirdweb using the command : ```npx thirdweb deploy```  
+Pass the deployed contract address to frontend side. You can also interact with the functions in your smart contract on thirdweb
