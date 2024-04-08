@@ -5,7 +5,7 @@ import LoginPage from "./Login/page.jsx" // Import your Login component from its
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react"
 
 import { WagmiConfig } from "wagmi"
-import { arbitrum, mainnet , polygonMumbai } from "viem/chains"
+import { arbitrum, mainnet , polygonMumbai , sepolia } from "viem/chains"
 import Home from "./pages/Home.jsx"
 import Navbar from "./components/Navbar.jsx"
 import ClientFileUpload from "./pages/Client/ClientFileUpload.jsx"
@@ -27,7 +27,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 }
 
-const chains = [mainnet, arbitrum, polygonMumbai ]
+const chains = [mainnet, arbitrum, polygonMumbai, sepolia ]
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,

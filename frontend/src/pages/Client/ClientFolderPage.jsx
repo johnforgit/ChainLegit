@@ -10,8 +10,8 @@ function ClientFolderPage() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [NFTContract, setNFTContract] = useState(null);
   const [registered , setRegistered] = useState(0);
-  //const NFT_CONTRACT_ADDRESS = "0xb783a9df67548569399a1811120b70149a5bf1be";
-  const NFT_CONTRACT_ADDRESS = "0x01ff8e5afaba8d220fd56e0f541629ba232db61c";
+  const NFT_CONTRACT_ADDRESS = "0x9060bCbB4804d4E0FD65faC28D832Aa6b88561cB";
+  //const NFT_CONTRACT_ADDRESS = "0x01ff8e5afaba8d220fd56e0f541629ba232db61c";
   const [folderName, setFolderName] = useState('');
 
   const handleInputChange = (e) => {
@@ -56,9 +56,8 @@ function ClientFolderPage() {
         // //await ticketId.wait();
         // console.log(ticketId);
         // if (!ticketId){
-          const tx = await NFTContract.getFolderNames(
-            address
-          );
+          console.log(address);
+          const tx = await NFTContract.getFolderNames(address);
           console.log(tx);
         
         //alert(`Staked successfully`);
