@@ -132,38 +132,38 @@ const PinataUploader = () => {
   };
 
   return (
-    <div>
+    <div className='border-2 border-primary p-20 rounded-2xl'>
+       
+      <div className="flex flex-1 ">
       <label className="form-control w-full max-w-xs">
-        <div className="label">
-          <span className="label-text text-xl ml-14 font-semibold">Pinata File Uploader</span>
-        </div>
+      
         <input type="file" onChange={handleFileChange} className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
       </label>
-      <div
+      {/* <div
         className="drop-zone"
         onDrop={handleFileDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-      </div>
-      <button className='btn btn-outline btn-primary mt-5 ml-20' onClick={uploadToPinata} disabled={uploading}>
+      </div> */}
+      <button className='btn btn-outline  btn-primary mt-[] ml-2' onClick={uploadToPinata} disabled={uploading}>
         Upload to Pinata
-      </button>
+      </button></div>
       <div className="flex flex-col">
       <input
         type="text"
         value={fileName}
         onChange={handleFileNameChange}
         placeholder="Enter file name"
-        className="border border-gray-300 px-2 py-1 rounded-md mr-2 mt-3"
-      />
-      <input
+        className="input input-bordered input-primary w-full max-w-md ml-2 my-4"      />
+      <textarea
         type="text"
         value={fileDescription}
         onChange={handleFileDescriptionChange}
         placeholder="Enter file description"
-        className="border border-gray-300 px-2 py-1 rounded-md mr-2 mt-3"
-      />
-      <button className="bg-blue-600" onClick={handleMintNFT}>Submit</button>
+        className="textarea textarea-primary max-w-md ml-2 mb-4"      />
+        
+
+      <button className="btn btn-primary" onClick={handleMintNFT}>Submit</button>
       {uploading && <p>Uploading...</p>}
       {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
       
